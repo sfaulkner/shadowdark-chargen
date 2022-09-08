@@ -47,6 +47,13 @@ function App() {
         </li>
         <li>Gear</li>
       </ul>
+      <footer>
+        <p>
+          Shadowdark Chargen is an independent product published under the
+          Shadowdark RPG Third-Party License and is not affiliated with The
+          Arcane Library, LLC. Shadowdark RPG © The Arcane Library, LLC.
+        </p>
+      </footer>
     </>
   );
 }
