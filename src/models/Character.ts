@@ -33,6 +33,7 @@ export class Character {
   public readonly Title: string;
   public readonly Deity: DeityTableItem;
   public readonly Talents: string[];
+  public readonly Gear: string[];
   public readonly Stats: PlayerStats;
   public readonly HitPoints: number;
 
@@ -54,13 +55,23 @@ export class Character {
       Tables.Talents.roll()[this.CharacterClass.Id],
     ];
 
+    this.Gear = [];
+
+    if (this.CharacterClass.Id !== 3) {
+      this.Gear.push("Leather armor");
+    }
+
+    for (let i = 0; i < d20.roll("1d6"); i++) {
+      this.Gear.push(Tables.Gear.roll());
+    }
+
     if (this.Race.Id === 5) {
       this.Talents.push(Tables.Talents.roll()[this.CharacterClass.Id]);
     }
 
     this.Stats = new PlayerStats();
 
-    const conMod = Math.round((this.Stats.Constitution - 10) / 2);
+    const conMod = Math.floor((this.Stats.Constitution - 10) / 2);
 
     let hp = d20.roll(this.CharacterClass.HitDice) + (conMod > 0 ? conMod : 1);
 

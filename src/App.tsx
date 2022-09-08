@@ -1,52 +1,37 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 import "./App.css";
+import CharacterSheet from "./components/CharacterSheet";
 import { Character } from "./models/Character";
 
 function App() {
   const [player, setPlayer] = useState(new Character());
 
+  const charactherSheetRef = useRef(null);
+
   const onRerollClick = () => {
     setPlayer(new Character());
   };
 
+  const handlePrint = useReactToPrint({
+    content: () => charactherSheetRef.current,
+  });
+
   return (
     <>
-      <button onClick={onRerollClick}>Reroll</button>
-      <ul>
-        <li>Name: {player.Name}</li>
-        <li>Race: {player.Race.Name}</li>
-        <li>Class: {player.CharacterClass.Name}</li>
-        <li>Level: {player.Level}</li>
-        <li>XP: 0</li>
-        <li>Title: {player.Title}</li>
-        <li>Alignment: {player.Alignment.Name}</li>
-        <li>Background: {player.Background.Name}</li>
-        <li>Deity: {player.Deity.Name}</li>
-      </ul>
-      <ul>
-        <li>Strength: {player.Stats.Strength}</li>
-        <li>Dexterity: {player.Stats.Dexterity}</li>
-        <li>Constitution: {player.Stats.Constitution}</li>
-        <li>Intelligence: {player.Stats.Intelligence}</li>
-        <li>Wisdom: {player.Stats.Wisdom}</li>
-        <li>Charisma: {player.Stats.Charisma}</li>
-      </ul>
-      <ul>
-        <li>HP: {player.HitPoints}</li>
-        <li>AC:</li>
-      </ul>
-      <ul>
-        <li>Attacks</li>
-        <li>
-          Talents & Spells
-          <ul>
-            {player.Talents.map((t, i) => (
-              <li key={i}>{t}</li>
-            ))}
-          </ul>
-        </li>
-        <li>Gear</li>
-      </ul>
+      <div className="buttonContainer">
+        <button className="button" onClick={onRerollClick}>
+          Reroll
+        </button>
+        <button className="button" onClick={handlePrint}>
+          Print
+        </button>
+      </div>
+
+      <div className="sheetContainer">
+        <CharacterSheet player={player} ref={charactherSheetRef} />
+      </div>
+
       <footer>
         <p>
           Shadowdark Chargen is an independent product published under the
