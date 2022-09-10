@@ -6,6 +6,7 @@ interface Props {
   label: string;
   weapons: Weapon[];
   meleeBonus: number;
+  meleeDamageBonus: number;
   rangedBonus: number;
   stats: PlayerStats;
 }
@@ -15,16 +16,14 @@ const AttackBox = ({
   label,
   weapons,
   meleeBonus,
+  meleeDamageBonus,
   rangedBonus,
   stats,
 }: Props) => {
-  const strMod = Math.floor((stats.Strength - 10) / 2);
-  const dexMod = Math.floor((stats.Dexterity - 10) / 2);
-
-  const meleeTotal = strMod + meleeBonus;
-  const finesseTotal = dexMod + meleeBonus;
-  const thrownTotal = strMod + rangedBonus;
-  const rangedTotal = dexMod + rangedBonus;
+  const meleeTotal = stats.StrMod + meleeBonus;
+  const finesseTotal = stats.DexMod + meleeBonus;
+  const thrownTotal = stats.StrMod + rangedBonus;
+  const rangedTotal = stats.DexMod + rangedBonus;
 
   return (
     <>
@@ -47,7 +46,9 @@ const AttackBox = ({
                   weapon.Properties.Finesse && stats.Dexterity > stats.Strength
                     ? finesseTotal
                     : meleeTotal
-                }, ${weapon.Damage}`}
+                }, ${weapon.Damage}${
+                  meleeDamageBonus > 0 ? ` + ${meleeDamageBonus}` : ""
+                }`}
               </div>
             );
           } else {

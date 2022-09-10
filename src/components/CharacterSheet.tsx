@@ -57,6 +57,7 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
                 label="Attacks"
                 weapons={player.Weapons}
                 meleeBonus={player.MeleeBonus}
+                meleeDamageBonus={player.MeleeDamageBonus}
                 rangedBonus={player.RangedBonus}
                 stats={player.Stats}
               />

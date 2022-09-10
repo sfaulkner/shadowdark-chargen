@@ -98,7 +98,7 @@ export class Talents {
 
   static readonly THIEF4: Talent = {
     Description: "+1 to melee and ranged attacks",
-    Source: ClassType.Fighter,
+    Source: ClassType.Thief,
     AttackBonus: [AttackBonus.Melee, AttackBonus.Ranged],
     AttackBonusBoth: true,
   };
