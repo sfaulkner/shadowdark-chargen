@@ -8,6 +8,7 @@ interface Props {
   player: Character;
 }
 
+// Displays a character sheet from a Character input
 const CharacterSheet = forwardRef<HTMLDivElement, Props>(
   ({ player }: Props, ref) => {
     return (

@@ -4,6 +4,7 @@ interface Props {
   ordered?: boolean;
 }
 
+// Displays a list with a title for things like gear and talents
 const ListBox = ({ label, items, ordered = false }: Props) => {
   if (ordered) {
     return (

@@ -1,12 +1,32 @@
+export enum AbilityScores {
+  Strength = 0,
+  Dexterity,
+  Constitution,
+  Intelligence,
+  Wisdom,
+  Charisma,
+}
+
 export interface TalentItem {
   Name: string;
   Description: string;
 }
 
+export enum RaceType {
+  Dwarf = 0,
+  Elf,
+  Goblin,
+  Halfling,
+  Halforc,
+  Human,
+}
+
 export interface RaceTableItem {
-  Id: number;
+  Id: RaceType;
   Name: string;
   Talent: TalentItem;
+  Languages: string[];
+  Description: string;
 }
 
 export const RaceData = [
@@ -19,6 +39,9 @@ export const RaceData = [
         Name: "Ambitious",
         Description: "You gain one additional talent roll at 1st level.",
       },
+      Languages: ["Common"],
+      Description:
+        "Bold, adaptable, and diverse people who learn quickly and accomplish mighty deeds.",
     },
   },
   {
@@ -31,6 +54,9 @@ export const RaceData = [
         Description:
           "You get a +1 bonus to attack rolls with ranged weapons or a +1 bonus to spellcasting checks.",
       },
+      Languages: ["Common", "Elvish", "Sylvan"],
+      Description:
+        "Ethereal, graceful people who revere knowledge and beauty. Elves see far and live long.",
     },
   },
   {
@@ -42,6 +68,9 @@ export const RaceData = [
         Name: "Stout",
         Description: "Roll your hit dice gains with advantage.",
       },
+      Languages: ["Common", "Dwarvish"],
+      Description:
+        "Brave, stalwart folk as sturdy as the stone kingdoms they carve inside mountains.",
     },
   },
   {
@@ -53,6 +82,9 @@ export const RaceData = [
         Name: "Stealthy",
         Description: "Once per day, you can become invisible for 3 rounds.",
       },
+      Languages: ["Common"],
+      Description:
+        "Small, cheerful country folk with mischievous streaks. They enjoy life’s simple pleasures.",
     },
   },
   {
@@ -65,6 +97,9 @@ export const RaceData = [
         Description:
           "You have a +1 bonus to attack and damage rolls with melee weapons.",
       },
+      Languages: ["Common", "Orcish"],
+      Description:
+        "Towering, tusked warriors who are as daring as humans and as relentless as orcs.",
     },
   },
   {
@@ -76,14 +111,33 @@ export const RaceData = [
         Name: "Keen Senses",
         Description: "You can't be surprised.",
       },
+      Languages: ["Common", "Goblin"],
+      Description:
+        "Green, clever beings who thrive in dark, cramped places. As fierce as they are tiny.",
     },
   },
 ];
 
+export enum ClassType {
+  Cleric = 0,
+  Fighter = 1,
+  Thief = 2,
+  Wizard = 3,
+}
+
 export interface ClassTableItem {
-  Id: number;
+  Id: ClassType;
   Name: string;
   HitDice: string;
+  Description: string;
+  Weapons: string[];
+  Armor: string[];
+  Features: string[];
+  Languages?: string[];
+  Items?: string[];
+  Spells?: string[];
+  SpellAbility?: AbilityScores;
+  PreferredAbility: AbilityScores;
 }
 
 export const ClassData = [
@@ -93,6 +147,27 @@ export const ClassData = [
       Id: 0,
       Name: "Cleric",
       HitDice: "1d6",
+      Description:
+        "Crusading templars, prophetic shamans, or mad-eyed zealots who wield the power of their gods to cleanse the unholy.",
+      Weapons: [
+        "Club",
+        "Crossbow",
+        "Dagger",
+        "Mace",
+        "Longsword",
+        "Staff",
+        "Warhammer",
+      ],
+      Armor: ["Leather armor", "Chainmail", "Plate mail", "Shield"],
+      Features: [
+        "Spellcasting. You can cast cleric spells you know.",
+        "Deity. Choose a god to serve who matches your alignment (see Deities, pg. 30). You have a holy symbol for your god (it takes up no gear slots).",
+      ],
+      Languages: ["Celestial", "Diabolic", "Primordial"],
+      Items: ["Holy symbol"],
+      Spells: ["Turn Undead"],
+      SpellAbility: AbilityScores.Wisdom,
+      PreferredAbility: AbilityScores.Wisdom,
     },
   },
   {
@@ -101,6 +176,16 @@ export const ClassData = [
       Id: 1,
       Name: "Fighter",
       HitDice: "1d8",
+      Description:
+        "Blood-soaked gladiators in dented armor, acrobatic duelists with darting swords, or far-eyed elven archers who carve their legends with steel and grit.",
+      Weapons: ["All"],
+      Armor: ["Leather armor", "Chainmail", "Plate mail", "Shield"],
+      Features: [
+        "Hauler. Add your Constitution modifier, if positive, to your gear slots.",
+        "Weapon Mastery. Choose one type of weapon, such as longswords. You gain +1 to attack and damage with that weapon type. In addition, add half your level to these rolls (round down).",
+        "Grit. Choose Strength or Dexterity. You have advantage on checks of that type to overcome an opposing force, such as kicking open a stuck door (Strength) or slipping free of rusty chains (Dexterity).",
+      ],
+      PreferredAbility: AbilityScores.Strength,
     },
   },
   {
@@ -109,6 +194,17 @@ export const ClassData = [
       Id: 2,
       Name: "Thief",
       HitDice: "1d4",
+      Description:
+        "Rooftop assassins, grinning con artists, or cloaked cat burglars who can pluck a gem from the claws of a sleeping demon and sell it for twice its worth.",
+      Weapons: ["Club", "Crossbow", "Dagger", "Shortbow", "Shortsword"],
+      Armor: ["Leather armor"],
+      Features: [
+        "Backstab. If you hit a creature who is unaware of your attack, you deal an extra weapon die of damage. Add additional weapon dice of damage equal to half your level (round down).",
+        "Thievery. You are adept at thieving skills and have the necessary tools of the trade secreted on your person (they take up no gear slots).",
+        "You are trained in the following tasks and have advantage on any associated ability checks: Climbing, Sneaking and hiding, Applying disguises, Finding and disabling traps, Delicate tasks such as picking pockets and opening locks",
+      ],
+      Items: ["Thieves' tools"],
+      PreferredAbility: AbilityScores.Dexterity,
     },
   },
   {
@@ -117,12 +213,31 @@ export const ClassData = [
       Id: 3,
       Name: "Wizard",
       HitDice: "1d4",
+      Description:
+        "Rune-tattooed adepts, bespectacled magi, and flame-conjuring witches who dare to manipulate the fell forces of magic.",
+      Weapons: ["Dagger", "Staff"],
+      Armor: [],
+      Features: [
+        "Spellcasting. You can cast wizard spells you know.",
+        "Learning Spells. You can permanently learn a wizard spell from a spell scroll by studying it for a day and succeeding on a DC 15 Intelligence check. Whether you succeed or fail, you expend the spell scroll. Spells you learn in this way don't count toward your known spells.",
+      ],
+      Languages: [
+        "You know two additional common languages and two rare languages (see pg.29).",
+      ],
+      SpellAbility: AbilityScores.Intelligence,
+      PreferredAbility: AbilityScores.Intelligence,
     },
   },
 ];
 
+export enum AlignmentType {
+  Lawful = 0,
+  Chaotic,
+  Neutral,
+}
+
 export interface AlignmentTableItem {
-  Id: number;
+  Id: AlignmentType;
   Name: string;
 }
 
@@ -556,5 +671,409 @@ export const TalentData = [
       "Choose a talent or +2 points to distribute to ability scores",
       "Choose a talent or +2 points to distribute to ability scores",
     ],
+  },
+];
+
+export interface Armor {
+  Name: string;
+  Cost: number;
+  Slots: number;
+  ArmorClass: number;
+  DexBonus: boolean;
+  ArmorBonus: number;
+  Properties: string;
+}
+
+export const ArmorData: Armor[] = [
+  {
+    Name: "Leathar armor",
+    Cost: 10,
+    Slots: 1,
+    ArmorClass: 11,
+    DexBonus: true,
+    ArmorBonus: 0,
+    Properties: "",
+  },
+  {
+    Name: "Chainmail",
+    Cost: 60,
+    Slots: 2,
+    ArmorClass: 13,
+    DexBonus: true,
+    ArmorBonus: 0,
+    Properties: "Disadv on stealth, swim",
+  },
+  {
+    Name: "Plate mail",
+    Cost: 130,
+    Slots: 3,
+    ArmorClass: 15,
+    DexBonus: false,
+    ArmorBonus: 0,
+    Properties: "No swim, disadv stealth",
+  },
+  {
+    Name: "Shield",
+    Cost: 10,
+    Slots: 1,
+    ArmorClass: 0,
+    DexBonus: false,
+    ArmorBonus: 2,
+    Properties: "Occupies one hand",
+  },
+];
+
+export enum WeaponTypes {
+  Melee = 0,
+  Ranged,
+}
+
+export enum WeaponRanges {
+  Close = 0,
+  Near,
+  Far,
+}
+
+export enum WeaponHandedness {
+  Onehand = 0,
+  Twohand,
+  Versatile,
+}
+
+export interface WeaponProperties {
+  Handed: WeaponHandedness;
+  Slots: number;
+  Loading: boolean;
+  Thrown: boolean;
+  Finesse: boolean;
+}
+
+export interface Weapons {
+  Name: string;
+  Cost: number;
+  Type: WeaponTypes[];
+  Range: WeaponRanges;
+  Damage: "1d4" | "1d6" | "1d8" | "1d10" | "1d12";
+  VersatileDamage?: "1d8" | "1d10";
+  Properties: WeaponProperties;
+}
+
+export const WeaponData: Weapons[] = [
+  {
+    Name: "Bastard sword",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    VersatileDamage: "1d10",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Club",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Crossbow",
+    Cost: 8,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 1,
+      Loading: true,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Dagger",
+    Cost: 1,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Near,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: true,
+    },
+  },
+  {
+    Name: "Greataxe",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    VersatileDamage: "1d10",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Greatsword",
+    Cost: 12,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d12",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Javelin",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Longbow",
+    Cost: 8,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Longsword",
+    Cost: 9,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    VersatileDamage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Mace",
+    Cost: 5,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Longbow",
+    Cost: 6,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Shortsword",
+    Cost: 7,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Spear",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Near,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Staff",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+  {
+    Name: "Warhammer",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  },
+];
+
+export const CommonLanguageData = [
+  {
+    Range: 1,
+    Value: {
+      Name: "Common",
+      Description: "Most humanoids",
+    },
+  },
+  {
+    Range: 2,
+    Value: {
+      Name: "Dwarvish",
+      Description: "Dwarves",
+    },
+  },
+  {
+    Range: 3,
+    Value: {
+      Name: "Elvish",
+      Description: "Elves",
+    },
+  },
+  {
+    Range: 4,
+    Value: {
+      Name: "Giant",
+      Description: "Giants, ogres, trolls",
+    },
+  },
+  {
+    Range: 5,
+    Value: {
+      Name: "Goblin",
+      Description: "Bugbears, goblins, hobgoblins",
+    },
+  },
+  {
+    Range: 6,
+    Value: {
+      Name: "Merran",
+      Description: "Merfolk, sahuagin, sirens",
+    },
+  },
+  {
+    Range: 7,
+    Value: {
+      Name: "Orcish",
+      Description: "Orcs",
+    },
+  },
+  {
+    Range: 8,
+    Value: {
+      Name: "Reptilian",
+      Description: "Lizardfolks, viperians",
+    },
+  },
+  {
+    Range: 9,
+    Value: {
+      Name: "Sylvan",
+      Description: "Centaurs, dryads, faeries",
+    },
+  },
+  {
+    Range: 10,
+    Value: {
+      Name: "Thanian",
+      Description: "Minotaurs, beastmen, manticores",
+    },
+  },
+];
+
+export const ExoticLanguageData = [
+  {
+    Range: 1,
+    Value: {
+      Name: "Celestial",
+      Description: "Angels",
+    },
+  },
+  {
+    Range: 2,
+    Value: {
+      Name: "Diabolic",
+      Description: "Demons, devils",
+    },
+  },
+  {
+    Range: 3,
+    Value: {
+      Name: "Draconic",
+      Description: "Dragons",
+    },
+  },
+  {
+    Range: 4,
+    Value: {
+      Name: "Primordial",
+      Description: "Elder things, elementals",
+    },
   },
 ];

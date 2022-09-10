@@ -3,7 +3,9 @@ interface Props {
   value: number;
 }
 
+// Container for showing the attributes
 const StatBox = ({ label, value }: Props) => {
+  // Calculate the mod for this attribute
   const mod = Math.floor((value - 10) / 2);
 
   return (

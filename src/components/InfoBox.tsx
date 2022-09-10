@@ -4,6 +4,7 @@ interface Props {
   valueClass?: "value" | "largeValue" | "rightValue";
 }
 
+// Displays the middle boxes of text like race and class
 const InfoBox = ({ label, value, valueClass = "rightValue" }: Props) => {
   return (
     <>

@@ -4,15 +4,20 @@ import "./App.css";
 import CharacterSheet from "./components/CharacterSheet";
 import { Character } from "./models/Character";
 
+// Main component to hold all the others
 function App() {
+  // Holds the state of the currently rolled character
   const [player, setPlayer] = useState(new Character());
 
+  // Ref to the character sheet component for print button
   const charactherSheetRef = useRef(null);
 
+  // Rerolling the character creates a new one
   const onRerollClick = () => {
     setPlayer(new Character());
   };
 
+  // Event handler to print the character sheet
   const handlePrint = useReactToPrint({
     content: () => charactherSheetRef.current,
   });
