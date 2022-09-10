@@ -7,9 +7,16 @@ export enum AbilityScores {
   Charisma,
 }
 
-export interface TalentItem {
-  Name: string;
-  Description: string;
+export enum AttackBonus {
+  Melee = 0,
+  Ranged,
+}
+
+export enum ClassType {
+  Cleric = 0,
+  Fighter = 1,
+  Thief = 2,
+  Wizard = 3,
 }
 
 export enum RaceType {
@@ -21,109 +28,374 @@ export enum RaceType {
   Human,
 }
 
-export interface RaceTableItem {
+export interface Talent {
+  Name?: string;
+  Description: string;
+  Source: ClassType | RaceType | "class";
+  AbilityScoreBonus?: number;
+  AbilityScoreBonusType?: AbilityScores[];
+  SpellcastingBonus?: number;
+  SpellcastingBonusType?: ClassType.Cleric | ClassType.Wizard;
+  BackstabBonus?: boolean;
+  AttackBonus?: AttackBonus[];
+  AttackBonusBoth?: boolean;
+  TalentBonus?: boolean;
+}
+
+export class Talents {
+  static readonly CLERIC1: Talent = {
+    Description: "Gain advantage on casting one spell you know",
+    Source: ClassType.Cleric,
+  };
+
+  static readonly CLERIC2: Talent = {
+    Description: "+1 to melee or ranged attacks",
+    Source: ClassType.Cleric,
+    AttackBonus: [AttackBonus.Melee, AttackBonus.Ranged],
+    AttackBonusBoth: false,
+  };
+
+  static readonly CLERIC3: Talent = {
+    Description: "+1 to cleric spellcasting checks",
+    Source: ClassType.Cleric,
+    SpellcastingBonus: 1,
+    SpellcastingBonusType: ClassType.Cleric,
+  };
+
+  static readonly CLERIC4: Talent = {
+    Description: "+2 to Strength or Wisdom score",
+    Source: ClassType.Cleric,
+    AbilityScoreBonus: 2,
+    AbilityScoreBonusType: [AbilityScores.Strength, AbilityScores.Wisdom],
+  };
+
+  static readonly FIGHTER1: Talent = {
+    Description: "Gain Weapon Mastery with one additional weapon",
+    Source: ClassType.Fighter,
+  };
+
+  static readonly FIGHTER2: Talent = {
+    Description: "+1 to melee and ranged attacks",
+    Source: ClassType.Fighter,
+    AttackBonus: [AttackBonus.Melee, AttackBonus.Ranged],
+    AttackBonusBoth: true,
+  };
+
+  static readonly FIGHTER3: Talent = {
+    Description: "+2 to Strength, Dexterity, or Constitution score",
+    Source: ClassType.Fighter,
+    AbilityScoreBonus: 2,
+    AbilityScoreBonusType: [
+      AbilityScores.Strength,
+      AbilityScores.Dexterity,
+      AbilityScores.Constitution,
+    ],
+  };
+
+  static readonly FIGHTER4: Talent = {
+    Description: "Choose one kind of armor. You get +1 AC from that armor",
+    Source: ClassType.Fighter,
+  };
+
+  static readonly THIEF1: Talent = {
+    Description: "Gain advantage on initiative rolls (reroll if duplicate)",
+    Source: ClassType.Thief,
+  };
+
+  static readonly THIEF2: Talent = {
+    Description: "Your Backstab deals +1 dice of damage",
+    Source: ClassType.Thief,
+    BackstabBonus: true,
+  };
+
+  static readonly THIEF3: Talent = {
+    Description: "+2 to Strength, Dexterity, or Charisma score",
+    Source: ClassType.Thief,
+    AbilityScoreBonus: 2,
+    AbilityScoreBonusType: [
+      AbilityScores.Strength,
+      AbilityScores.Dexterity,
+      AbilityScores.Charisma,
+    ],
+  };
+
+  static readonly THIEF4: Talent = {
+    Description: "+1 to melee and ranged attacks",
+    Source: ClassType.Fighter,
+    AttackBonus: [AttackBonus.Melee, AttackBonus.Ranged],
+    AttackBonusBoth: true,
+  };
+
+  static readonly WIZARD1: Talent = {
+    Description: "Make one random magic item (see GM Quickstart Guide)",
+    Source: ClassType.Wizard,
+  };
+
+  static readonly WIZARD2: Talent = {
+    Description: "+2 to Intelligence score or +1 to wizard spellcasting checks",
+    Source: ClassType.Wizard,
+    AbilityScoreBonus: 2,
+    AbilityScoreBonusType: [AbilityScores.Intelligence],
+    SpellcastingBonus: 1,
+    SpellcastingBonusType: ClassType.Wizard,
+  };
+
+  static readonly WIZARD3: Talent = {
+    Description: "Gain advantage on casting one spell you know",
+    Source: ClassType.Wizard,
+  };
+
+  static readonly WIZARD4: Talent = {
+    Description: "Learn one additional wizard spell of any tier you know",
+    Source: ClassType.Wizard,
+  };
+
+  static readonly CLASS5: Talent = {
+    Description: "Choose a talent or +2 points to distribute to ability scores",
+    Source: "class",
+    AbilityScoreBonus: 2,
+    AbilityScoreBonusType: [
+      AbilityScores.Strength,
+      AbilityScores.Dexterity,
+      AbilityScores.Constitution,
+      AbilityScores.Intelligence,
+      AbilityScores.Wisdom,
+      AbilityScores.Charisma,
+    ],
+    TalentBonus: true,
+  };
+
+  static readonly HUMAN: Talent = {
+    Name: "Ambitious",
+    Description: "You gain one additional talent roll at 1st level.",
+    Source: RaceType.Human,
+  };
+
+  static readonly ELF: Talent = {
+    Name: "Farsight",
+    Description:
+      "You get a +1 bonus to attack rolls with ranged weapons or a +1 bonus to spellcasting checks.",
+    Source: RaceType.Elf,
+  };
+
+  static readonly DWARF: Talent = {
+    Name: "Stout",
+    Description: "Roll your hit dice gains with advantage.",
+    Source: RaceType.Dwarf,
+  };
+
+  static readonly HALFLING: Talent = {
+    Name: "Stealthy",
+    Description: "Once per day, you can become invisible for 3 rounds.",
+    Source: RaceType.Halfling,
+  };
+
+  static readonly HALFORC: Talent = {
+    Name: "Mighty",
+    Description:
+      "You have a +1 bonus to attack and damage rolls with melee weapons.",
+    Source: RaceType.Halforc,
+  };
+
+  static readonly GOBLIN: Talent = {
+    Name: "Keen Senses",
+    Description: "You can't be surprised.",
+    Source: RaceType.Goblin,
+  };
+}
+
+export interface TalentItem {
+  Name: string;
+  Description: string;
+}
+
+export enum LanguageRarity {
+  Common = 0,
+  Rare,
+}
+
+export interface Language {
+  Name: string;
+  Speakers: string;
+  Rarity: LanguageRarity;
+}
+
+export class Languages {
+  static readonly COMMON: Language = {
+    Name: "Common",
+    Speakers: "Most humanoids",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly DWARVISH: Language = {
+    Name: "Dwarvish",
+    Speakers: "Dwarves",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly ELVISH: Language = {
+    Name: "Elvish",
+    Speakers: "Elves",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly GIANT: Language = {
+    Name: "Giant",
+    Speakers: "Giants, ogres, trolls",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly GOBLIN: Language = {
+    Name: "Goblin",
+    Speakers: "Bugbears, goblins, hobgoblins",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly MERRAN: Language = {
+    Name: "Merran",
+    Speakers: "Merfolk, sahuagin, sirens",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly ORCISH: Language = {
+    Name: "Orcish",
+    Speakers: "Orcs",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly REPTILLIAN: Language = {
+    Name: "Reptilian",
+    Speakers: "Lizardfolks, viperians",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly SYLVAN: Language = {
+    Name: "Sylvan",
+    Speakers: "Centaurs, dryads, faeries",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly THANIAN: Language = {
+    Name: "Thanian",
+    Speakers: "Minotaurs, beastmen, manticores",
+    Rarity: LanguageRarity.Common,
+  };
+
+  static readonly CELESTIAL: Language = {
+    Name: "Celestial",
+    Speakers: "Angels",
+    Rarity: LanguageRarity.Rare,
+  };
+
+  static readonly DIABOLIC: Language = {
+    Name: "Diabolic",
+    Speakers: "Demons, devils",
+    Rarity: LanguageRarity.Rare,
+  };
+
+  static readonly DRACONIC: Language = {
+    Name: "Draconic",
+    Speakers: "Dragons",
+    Rarity: LanguageRarity.Rare,
+  };
+
+  static readonly PRIMORDIAL: Language = {
+    Name: "Primordial",
+    Speakers: "Elder things, elementals",
+    Rarity: LanguageRarity.Rare,
+  };
+}
+
+export interface Race {
   Id: RaceType;
   Name: string;
-  Talent: TalentItem;
-  Languages: string[];
+  Talent: Talent;
+  Languages: Language[];
   Description: string;
+}
+
+export class Races {
+  static readonly HUMAN: Race = {
+    Id: 5,
+    Name: "Human",
+    Talent: Talents.HUMAN,
+    Languages: [Languages.COMMON],
+    Description:
+      "Bold, adaptable, and diverse people who learn quickly and accomplish mighty deeds.",
+  };
+
+  static readonly ELF: Race = {
+    Id: 1,
+    Name: "Elf",
+    Talent: Talents.ELF,
+    Languages: [Languages.COMMON, Languages.ELVISH, Languages.SYLVAN],
+    Description:
+      "Ethereal, graceful people who revere knowledge and beauty. Elves see far and live long.",
+  };
+
+  static readonly DWARF: Race = {
+    Id: 0,
+    Name: "Dwarf",
+    Talent: Talents.DWARF,
+    Languages: [Languages.COMMON, Languages.DWARVISH],
+    Description:
+      "Brave, stalwart folk as sturdy as the stone kingdoms they carve inside mountains.",
+  };
+
+  static readonly HALFLING: Race = {
+    Id: 3,
+    Name: "Halfling",
+    Talent: Talents.HALFLING,
+    Languages: [Languages.COMMON],
+    Description:
+      "Small, cheerful country folk with mischievous streaks. They enjoy life’s simple pleasures.",
+  };
+
+  static readonly HALFORC: Race = {
+    Id: 4,
+    Name: "Half-orc",
+    Talent: Talents.HALFORC,
+    Languages: [Languages.COMMON, Languages.ORCISH],
+    Description:
+      "Towering, tusked warriors who are as daring as humans and as relentless as orcs.",
+  };
+
+  static readonly GOBLIN: Race = {
+    Id: 2,
+    Name: "Goblin",
+    Talent: Talents.GOBLIN,
+    Languages: [Languages.COMMON, Languages.GOBLIN],
+    Description:
+      "Green, clever beings who thrive in dark, cramped places. As fierce as they are tiny.",
+  };
 }
 
 export const RaceData = [
   {
     Range: 4,
-    Value: {
-      Id: 5,
-      Name: "Human",
-      Talent: {
-        Name: "Ambitious",
-        Description: "You gain one additional talent roll at 1st level.",
-      },
-      Languages: ["Common"],
-      Description:
-        "Bold, adaptable, and diverse people who learn quickly and accomplish mighty deeds.",
-    },
+    Value: Races.HUMAN,
   },
   {
     Range: 6,
-    Value: {
-      Id: 1,
-      Name: "Elf",
-      Talent: {
-        Name: "Farsight",
-        Description:
-          "You get a +1 bonus to attack rolls with ranged weapons or a +1 bonus to spellcasting checks.",
-      },
-      Languages: ["Common", "Elvish", "Sylvan"],
-      Description:
-        "Ethereal, graceful people who revere knowledge and beauty. Elves see far and live long.",
-    },
+    Value: Races.ELF,
   },
   {
     Range: 8,
-    Value: {
-      Id: 0,
-      Name: "Dwarf",
-      Talent: {
-        Name: "Stout",
-        Description: "Roll your hit dice gains with advantage.",
-      },
-      Languages: ["Common", "Dwarvish"],
-      Description:
-        "Brave, stalwart folk as sturdy as the stone kingdoms they carve inside mountains.",
-    },
+    Value: Races.DWARF,
   },
   {
     Range: 10,
-    Value: {
-      Id: 3,
-      Name: "Halfling",
-      Talent: {
-        Name: "Stealthy",
-        Description: "Once per day, you can become invisible for 3 rounds.",
-      },
-      Languages: ["Common"],
-      Description:
-        "Small, cheerful country folk with mischievous streaks. They enjoy life’s simple pleasures.",
-    },
+    Value: Races.HALFLING,
   },
   {
     Range: 11,
-    Value: {
-      Id: 4,
-      Name: "Half-orc",
-      Talent: {
-        Name: "Mighty",
-        Description:
-          "You have a +1 bonus to attack and damage rolls with melee weapons.",
-      },
-      Languages: ["Common", "Orcish"],
-      Description:
-        "Towering, tusked warriors who are as daring as humans and as relentless as orcs.",
-    },
+    Value: Races.HALFORC,
   },
   {
     Range: 12,
-    Value: {
-      Id: 2,
-      Name: "Goblin",
-      Talent: {
-        Name: "Keen Senses",
-        Description: "You can't be surprised.",
-      },
-      Languages: ["Common", "Goblin"],
-      Description:
-        "Green, clever beings who thrive in dark, cramped places. As fierce as they are tiny.",
-    },
+    Value: Races.GOBLIN,
   },
 ];
-
-export enum ClassType {
-  Cleric = 0,
-  Fighter = 1,
-  Thief = 2,
-  Wizard = 3,
-}
 
 export interface ClassTableItem {
   Id: ClassType;
@@ -684,6 +956,48 @@ export interface Armor {
   Properties: string;
 }
 
+export class Armors {
+  static readonly LEATHER_ARMOR: Armor = {
+    Name: "Leather armor",
+    Cost: 10,
+    Slots: 1,
+    ArmorClass: 11,
+    DexBonus: true,
+    ArmorBonus: 0,
+    Properties: "",
+  };
+
+  static readonly CHAINMAIL: Armor = {
+    Name: "Chainmail",
+    Cost: 60,
+    Slots: 2,
+    ArmorClass: 13,
+    DexBonus: true,
+    ArmorBonus: 0,
+    Properties: "Disadv on stealth, swim",
+  };
+
+  static readonly PLATE_MAIL: Armor = {
+    Name: "Plate mail",
+    Cost: 130,
+    Slots: 3,
+    ArmorClass: 15,
+    DexBonus: false,
+    ArmorBonus: 0,
+    Properties: "No swim, disadv stealth",
+  };
+
+  static readonly SHIELD: Armor = {
+    Name: "Shield",
+    Cost: 10,
+    Slots: 1,
+    ArmorClass: 0,
+    DexBonus: false,
+    ArmorBonus: 2,
+    Properties: "Occupies one hand",
+  };
+}
+
 export const ArmorData: Armor[] = [
   {
     Name: "Leathar armor",
@@ -748,7 +1062,7 @@ export interface WeaponProperties {
   Finesse: boolean;
 }
 
-export interface Weapons {
+export interface Weapon {
   Name: string;
   Cost: number;
   Type: WeaponTypes[];
@@ -758,7 +1072,237 @@ export interface Weapons {
   Properties: WeaponProperties;
 }
 
-export const WeaponData: Weapons[] = [
+export class Weapons {
+  static readonly BASTARD_SWORD: Weapon = {
+    Name: "Bastard sword",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    VersatileDamage: "1d10",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly CLUB: Weapon = {
+    Name: "Club",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly CROSSBOW: Weapon = {
+    Name: "Crossbow",
+    Cost: 8,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 1,
+      Loading: true,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly DAGGER: Weapon = {
+    Name: "Dagger",
+    Cost: 1,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Near,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: true,
+    },
+  };
+
+  static readonly GREATAXE: Weapon = {
+    Name: "Greataxe",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    VersatileDamage: "1d10",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly GREATSWORD: Weapon = {
+    Name: "Greatsword",
+    Cost: 12,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d12",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 2,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly JAVELIN: Weapon = {
+    Name: "Javelin",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: false,
+    },
+  };
+
+  static readonly LONGBOW: Weapon = {
+    Name: "Longbow",
+    Cost: 8,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly LONGSWORD: Weapon = {
+    Name: "Longsword",
+    Cost: 9,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    VersatileDamage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Versatile,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly MACE: Weapon = {
+    Name: "Mace",
+    Cost: 5,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly SHORTBOW: Weapon = {
+    Name: "Shortbow",
+    Cost: 6,
+    Type: [WeaponTypes.Ranged],
+    Range: WeaponRanges.Far,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly SHORTSWORD: Weapon = {
+    Name: "Shortsword",
+    Cost: 7,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly SPEAR: Weapon = {
+    Name: "Spear",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
+    Range: WeaponRanges.Near,
+    Damage: "1d6",
+    Properties: {
+      Handed: WeaponHandedness.Onehand,
+      Slots: 1,
+      Loading: false,
+      Thrown: true,
+      Finesse: false,
+    },
+  };
+
+  static readonly STAFF: Weapon = {
+    Name: "Staff",
+    Cost: 0.05,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d4",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+
+  static readonly WARHAMMER: Weapon = {
+    Name: "Warhammer",
+    Cost: 10,
+    Type: [WeaponTypes.Melee],
+    Range: WeaponRanges.Close,
+    Damage: "1d8",
+    Properties: {
+      Handed: WeaponHandedness.Twohand,
+      Slots: 1,
+      Loading: false,
+      Thrown: false,
+      Finesse: false,
+    },
+  };
+}
+
+export const WeaponData: Weapon[] = [
   {
     Name: "Bastard sword",
     Cost: 10,
@@ -903,7 +1447,7 @@ export const WeaponData: Weapons[] = [
     },
   },
   {
-    Name: "Longbow",
+    Name: "Shortbow",
     Cost: 6,
     Type: [WeaponTypes.Ranged],
     Range: WeaponRanges.Far,
@@ -977,103 +1521,61 @@ export const WeaponData: Weapons[] = [
 export const CommonLanguageData = [
   {
     Range: 1,
-    Value: {
-      Name: "Common",
-      Description: "Most humanoids",
-    },
+    Value: Languages.COMMON,
   },
   {
     Range: 2,
-    Value: {
-      Name: "Dwarvish",
-      Description: "Dwarves",
-    },
+    Value: Languages.DWARVISH,
   },
   {
     Range: 3,
-    Value: {
-      Name: "Elvish",
-      Description: "Elves",
-    },
+    Value: Languages.ELVISH,
   },
   {
     Range: 4,
-    Value: {
-      Name: "Giant",
-      Description: "Giants, ogres, trolls",
-    },
+    Value: Languages.GIANT,
   },
   {
     Range: 5,
-    Value: {
-      Name: "Goblin",
-      Description: "Bugbears, goblins, hobgoblins",
-    },
+    Value: Languages.GOBLIN,
   },
   {
     Range: 6,
-    Value: {
-      Name: "Merran",
-      Description: "Merfolk, sahuagin, sirens",
-    },
+    Value: Languages.MERRAN,
   },
   {
     Range: 7,
-    Value: {
-      Name: "Orcish",
-      Description: "Orcs",
-    },
+    Value: Languages.ORCISH,
   },
   {
     Range: 8,
-    Value: {
-      Name: "Reptilian",
-      Description: "Lizardfolks, viperians",
-    },
+    Value: Languages.REPTILLIAN,
   },
   {
     Range: 9,
-    Value: {
-      Name: "Sylvan",
-      Description: "Centaurs, dryads, faeries",
-    },
+    Value: Languages.SYLVAN,
   },
   {
     Range: 10,
-    Value: {
-      Name: "Thanian",
-      Description: "Minotaurs, beastmen, manticores",
-    },
+    Value: Languages.THANIAN,
   },
 ];
 
 export const ExoticLanguageData = [
   {
     Range: 1,
-    Value: {
-      Name: "Celestial",
-      Description: "Angels",
-    },
+    Value: Languages.CELESTIAL,
   },
   {
     Range: 2,
-    Value: {
-      Name: "Diabolic",
-      Description: "Demons, devils",
-    },
+    Value: Languages.DIABOLIC,
   },
   {
     Range: 3,
-    Value: {
-      Name: "Draconic",
-      Description: "Dragons",
-    },
+    Value: Languages.DRACONIC,
   },
   {
     Range: 4,
-    Value: {
-      Name: "Primordial",
-      Description: "Elder things, elementals",
-    },
+    Value: Languages.PRIMORDIAL,
   },
 ];

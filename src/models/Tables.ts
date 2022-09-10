@@ -11,7 +11,7 @@ import {
   GearData,
   NameData,
   RaceData,
-  RaceTableItem,
+  Race,
   TalentData,
   TitleData,
 } from "./RawData";
@@ -57,7 +57,7 @@ export class RollableTable<T> {
 }
 
 // Create the tables for a character to roll on
-const Races = new RollableTable<RaceTableItem>(RaceData, 12);
+const Races = new RollableTable<Race>(RaceData, 12);
 const Classes = new RollableTable<ClassTableItem>(ClassData, 4);
 const Alignments = new RollableTable<AlignmentTableItem>(AlignmentData, 6);
 const Gear = new RollableTable(GearData, 12);
