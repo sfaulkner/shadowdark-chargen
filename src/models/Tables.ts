@@ -1,17 +1,17 @@
 import { d20 } from "@2toad/d20";
+import { Alignment } from "./Alignments";
+import { Background } from "./Backgrounds";
+import { CharacterClass } from "./CharacterClass";
+import { AlignmentType } from "./Enumerations";
+import { Race } from "./Races";
 import {
   AlignmentData,
-  AlignmentTableItem,
-  AlignmentType,
   BackgroundData,
-  BackgroundTableItem,
   ClassData,
-  ClassTableItem,
   DeityData,
   GearData,
   NameData,
   RaceData,
-  Race,
   TalentData,
   TitleData,
 } from "./RawData";
@@ -58,10 +58,10 @@ export class RollableTable<T> {
 
 // Create the tables for a character to roll on
 const Races = new RollableTable<Race>(RaceData, 12);
-const Classes = new RollableTable<ClassTableItem>(ClassData, 4);
-const Alignments = new RollableTable<AlignmentTableItem>(AlignmentData, 6);
+const Classes = new RollableTable<CharacterClass>(ClassData, 4);
+const Alignments = new RollableTable<Alignment>(AlignmentData, 6);
 const Gear = new RollableTable(GearData, 12);
-const Backgrounds = new RollableTable<BackgroundTableItem>(BackgroundData, 20);
+const Backgrounds = new RollableTable<Background>(BackgroundData, 20);
 
 // Titles aren't a rollable table, instead find them based on
 // the level, class, and alignment

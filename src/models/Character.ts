@@ -1,26 +1,23 @@
 import { d20 } from "@2toad/d20";
+import { Alignment } from "./Alignments";
+import { Background } from "./Backgrounds";
+import { CharacterClass } from "./CharacterClass";
+import { Deity } from "./Deities";
+import { ClassType, RaceType } from "./Enumerations";
 import { PlayerStats } from "./PlayerStats";
-import {
-  AlignmentTableItem,
-  BackgroundTableItem,
-  ClassTableItem,
-  ClassType,
-  DeityTableItem,
-  RaceTableItem,
-  RaceType,
-} from "./RawData";
+import { Race } from "./Races";
 import { Tables } from "./Tables";
 
 // Class to instantiate and roll a character
 export class Character {
   public readonly Level: number;
-  public readonly Race: RaceTableItem;
+  public readonly Race: Race;
   public readonly Name: string;
-  public readonly CharacterClass: ClassTableItem;
-  public readonly Alignment: AlignmentTableItem;
-  public readonly Background: BackgroundTableItem;
+  public readonly CharacterClass: CharacterClass;
+  public readonly Alignment: Alignment;
+  public readonly Background: Background;
   public readonly Title: string;
-  public readonly Deity: DeityTableItem;
+  public readonly Deity: Deity;
   public readonly Talents: string[];
   public readonly Gear: string[];
   public readonly Stats: PlayerStats;
