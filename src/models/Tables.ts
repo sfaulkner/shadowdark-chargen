@@ -9,6 +9,7 @@ import {
   AlignmentData,
   BackgroundData,
   ClassData,
+  ClericSpellData,
   CommonLanguageData,
   DeityData,
   GearData,
@@ -17,6 +18,7 @@ import {
   RareLanguageData,
   TalentData,
   TitleData,
+  WizardSpellData,
 } from "./RawData";
 import { Weapon } from "./Weapons";
 
@@ -89,6 +91,10 @@ const CommonLanguages = new RollableTable(CommonLanguageData, 12);
 
 const RareLanguages = new RollableTable(RareLanguageData, 4);
 
+const ClericSpells = new RollableTable(ClericSpellData, 6);
+
+const WizardSpells = new RollableTable(WizardSpellData, 12);
+
 // Export the tables object for use on the character
 export const Tables = {
   Races,
@@ -102,4 +108,6 @@ export const Tables = {
   Talents,
   CommonLanguages,
   RareLanguages,
+  ClericSpells,
+  WizardSpells,
 };

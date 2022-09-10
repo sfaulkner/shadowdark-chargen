@@ -103,6 +103,7 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
                 label="Talents / Spells"
                 talents={player.Talents}
                 features={player.CharacterClass.Features}
+                spells={player.Spells}
                 languages={player.Languages}
               />
             </div>

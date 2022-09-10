@@ -6,6 +6,7 @@ import { Deities } from "./Deities";
 import { Gears } from "./Gear";
 import { Languages } from "./Languages";
 import { Races } from "./Races";
+import { Spells } from "./Spells";
 import { Talents } from "./Talents";
 import { Weapons } from "./Weapons";
 
@@ -415,5 +416,83 @@ export const RareLanguageData = [
   {
     Range: 4,
     Value: Languages.PRIMORDIAL,
+  },
+];
+
+export const ClericSpellData = [
+  {
+    Range: 1,
+    Value: Spells.CURE_WOUNDS,
+  },
+  {
+    Range: 2,
+    Value: Spells.HOLY_WEAPON,
+  },
+  {
+    Range: 3,
+    Value: Spells.LIGHT,
+  },
+  {
+    Range: 4,
+    Value: Spells.PROTECTION_FROM_EVIL,
+  },
+  {
+    Range: 5,
+    Value: Spells.SHIELD_OF_FAITH,
+  },
+  {
+    Range: 6,
+    Value: Spells.TURN_UNDEAD,
+  },
+];
+
+export const WizardSpellData = [
+  {
+    Range: 1,
+    Value: Spells.ALARM,
+  },
+  {
+    Range: 2,
+    Value: Spells.BURNING_HANDS,
+  },
+  {
+    Range: 3,
+    Value: Spells.CHARM_PERSON,
+  },
+  {
+    Range: 4,
+    Value: Spells.DETECT_MAGIC,
+  },
+  {
+    Range: 5,
+    Value: Spells.FEATHER_FALL,
+  },
+  {
+    Range: 6,
+    Value: Spells.FLOATING_DISK,
+  },
+  {
+    Range: 7,
+    Value: Spells.HOLD_PORTAL,
+  },
+  {
+    Range: 8,
+    Value: Spells.LIGHT,
+  },
+  {
+    Range: 9,
+    Value: Spells.MAGE_ARMOR,
+  },
+  {
+    Range: 10,
+    Value: Spells.MAGIC_MISSILE,
+  },
+  {
+    Range: 11,
+    Value: Spells.PROTECTION_FROM_EVIL,
+  },
+  {
+    Range: 12,
+    Value: Spells.SLEEP,
   },
 ];

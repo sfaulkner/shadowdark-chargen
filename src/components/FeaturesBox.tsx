@@ -1,16 +1,24 @@
 import { Feature } from "../models/CharacterClass";
 import { Language } from "../models/Languages";
+import { Spell } from "../models/Spells";
 import { Talent } from "../models/Talents";
 
 interface Props {
   label: string;
   talents: Talent[];
   features: Feature[];
+  spells: Spell[];
   languages: Language[];
 }
 
 // Displays a list with a title for things like gear and talents
-const FeaturesBox = ({ label, talents, features, languages }: Props) => {
+const FeaturesBox = ({
+  label,
+  talents,
+  features,
+  spells,
+  languages,
+}: Props) => {
   return (
     <>
       <div className="label">{label}</div>
@@ -28,6 +36,20 @@ const FeaturesBox = ({ label, talents, features, languages }: Props) => {
           </li>
         ))}
       </ul>
+      {spells.length > 0 && (
+        <>
+          <b>Tier 1 Spells. </b>
+          {spells.map((s, i) => {
+            if (i !== spells.length - 1) {
+              return <span key={`spell-${i}`}>{s.Name}, </span>;
+            } else {
+              return <span key={`spell-${i}`}>{s.Name}.</span>;
+            }
+          })}
+          <br />
+          <br />
+        </>
+      )}
       <b>Languages. </b>
       {languages.map((l, i) => {
         if (i !== languages.length - 1) {

@@ -12,6 +12,7 @@ import { Gear as GearType, Gears } from "./Gear";
 import { Armors } from "./Armors";
 import { Weapon, Weapons } from "./Weapons";
 import { Talent } from "./Talents";
+import { Spell, Spells } from "./Spells";
 
 // Class to instantiate and roll a character
 export class Character {
@@ -35,6 +36,7 @@ export class Character {
   public readonly MeleeBonus: number;
   public readonly RangedBonus: number;
   public readonly SpellcastingBonus: number;
+  public readonly Spells: Spell[];
 
   // Default level is 1
   public constructor(Level: number = 1) {
@@ -55,6 +57,8 @@ export class Character {
     this.MeleeBonus = 0;
     this.RangedBonus = 0;
     this.SpellcastingBonus = 0;
+
+    this.Spells = [];
 
     // Add the talents for this race and class
     this.Talents = [
@@ -166,6 +170,17 @@ export class Character {
 
     if (this.CharacterClass.Id === ClassType.Fighter && conMod > 0) {
       this.TotalSlots += conMod;
+    }
+
+    if (this.CharacterClass.Id === ClassType.Wizard) {
+      for (let i = 0; i < 3; i++) {
+        this.Spells.push(Tables.WizardSpells.roll());
+      }
+    } else if (this.CharacterClass.Id === ClassType.Cleric) {
+      this.Spells.push(Spells.TURN_UNDEAD);
+      for (let i = 0; i < 2; i++) {
+        this.Spells.push(Tables.ClericSpells.roll());
+      }
     }
   }
 }
