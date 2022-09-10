@@ -1,7 +1,9 @@
 import { forwardRef, Ref } from "react";
 import { Character } from "../models/Character";
+import AttackBox from "./AttackBox";
+import FeaturesBox from "./FeaturesBox";
+import GearBox from "./GearBox";
 import InfoBox from "./InfoBox";
-import ListBox from "./ListBox";
 import StatBox from "./StatBox";
 
 interface Props {
@@ -43,11 +45,21 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
                 />
               </div>
               <div className="box acGrid">
-                <InfoBox label="AC" value="" valueClass="largeValue" />
+                <InfoBox
+                  label="AC"
+                  value={player.ArmorClass.toString()}
+                  valueClass="largeValue"
+                />
               </div>
             </div>
             <div className="box attacksRow">
-              <InfoBox label="Attacks" value="" />
+              <AttackBox
+                label="Attacks"
+                weapons={player.Weapons}
+                meleeBonus={player.MeleeBonus}
+                rangedBonus={player.RangedBonus}
+                stats={player.Stats}
+              />
             </div>
           </div>
           <div className="nameRaceClassColumn">
@@ -87,10 +99,20 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
           </div>
           <div className="talentsGearColumn">
             <div className="box talentsGrid">
-              <ListBox label="Talents / Spells" items={player.Talents} />
+              <FeaturesBox
+                label="Talents / Spells"
+                talents={player.Talents}
+                features={player.CharacterClass.Features}
+                languages={player.Languages}
+              />
             </div>
             <div className="box gearGrid">
-              <ListBox label="Gear" items={player.Gear} ordered />
+              <GearBox
+                label="Gear"
+                items={player.Gear}
+                totalSlots={player.TotalSlots}
+                freeCarry={player.FreeCarry}
+              />
             </div>
           </div>
         </div>

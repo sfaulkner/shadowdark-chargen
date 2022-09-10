@@ -1,9 +1,13 @@
 import { Alignments } from "./Alignments";
+import { Armors } from "./Armors";
 import { Backgrounds } from "./Backgrounds";
 import { CharacterClasses } from "./CharacterClass";
 import { Deities } from "./Deities";
+import { Gears } from "./Gear";
 import { Languages } from "./Languages";
 import { Races } from "./Races";
+import { Talents } from "./Talents";
+import { Weapons } from "./Weapons";
 
 export const ClassData = [
   {
@@ -69,51 +73,51 @@ export const AlignmentData = [
 export const GearData = [
   {
     Range: 1,
-    Value: "Torch",
+    Value: Gears.TORCH,
   },
   {
     Range: 2,
-    Value: "Dagger",
+    Value: Weapons.DAGGER,
   },
   {
     Range: 3,
-    Value: "Pole",
+    Value: Gears.POLE,
   },
   {
     Range: 4,
-    Value: "Rations (3)",
+    Value: Gears.RATIONS,
   },
   {
     Range: 5,
-    Value: "Rope, 60'",
+    Value: Gears.ROPE,
   },
   {
     Range: 6,
-    Value: "Oil, flask",
+    Value: Gears.OIL_FLASK,
   },
   {
     Range: 7,
-    Value: "Crowbar",
+    Value: Gears.CROWBAR,
   },
   {
     Range: 8,
-    Value: "Iron spikes (10)",
+    Value: Gears.IRON_SPIKES,
   },
   {
     Range: 9,
-    Value: "Flint and steel",
+    Value: Gears.FLINT_AND_STEEL,
   },
   {
     Range: 10,
-    Value: "Grappling hook",
+    Value: Gears.GRAPPLING_HOOK,
   },
   {
     Range: 11,
-    Value: "Shield",
+    Value: Armors.SHIELD,
   },
   {
     Range: 12,
-    Value: "Caltrops (one bag)",
+    Value: Gears.CALTROPS,
   },
 ];
 
@@ -332,48 +336,23 @@ export const NameData = [
 export const TalentData = [
   {
     Range: 2,
-    Value: [
-      "Gain advantage on casting one spell you know",
-      "Gain Weapon Mastery with one additional weapon",
-      "Gain advantage on initiative rolls (reroll if duplicate)",
-      "Make one random magic item (see GM Quickstart Guide)",
-    ],
+    Value: [Talents.CLERIC1, Talents.FIGHTER1, Talents.THIEF1, Talents.WIZARD1],
   },
   {
     Range: 6,
-    Value: [
-      "+1 to melee or ranged attacks",
-      "+1 to melee and ranged attacks",
-      "Your Backstab deals +1 dice of damage",
-      "+2 to Intelligence score or +1 to wizard spellcasting checks",
-    ],
+    Value: [Talents.CLERIC2, Talents.FIGHTER2, Talents.THIEF2, Talents.WIZARD2],
   },
   {
     Range: 9,
-    Value: [
-      "+1 to cleric spellcasting checks",
-      "+2 to Strength, Dexterity, or Constitution score",
-      "+2 to Strength, Dexterity, or Charisma score",
-      "Gain advantage on casting one spell you know",
-    ],
+    Value: [Talents.CLERIC3, Talents.FIGHTER3, Talents.THIEF3, Talents.WIZARD3],
   },
   {
     Range: 11,
-    Value: [
-      "+2 to Strength or Wisdom score",
-      "Choose one kind of armor. You get +1 AC from that armor",
-      "+1 to melee and ranged attacks",
-      "Learn one additional wizard spell of any tier you know",
-    ],
+    Value: [Talents.CLERIC4, Talents.FIGHTER4, Talents.THIEF4, Talents.WIZARD4],
   },
   {
     Range: 12,
-    Value: [
-      "Choose a talent or +2 points to distribute to ability scores",
-      "Choose a talent or +2 points to distribute to ability scores",
-      "Choose a talent or +2 points to distribute to ability scores",
-      "Choose a talent or +2 points to distribute to ability scores",
-    ],
+    Value: [Talents.CLASS5, Talents.CLASS5, Talents.CLASS5, Talents.CLASS5],
   },
 ];
 
@@ -420,7 +399,7 @@ export const CommonLanguageData = [
   },
 ];
 
-export const ExoticLanguageData = [
+export const RareLanguageData = [
   {
     Range: 1,
     Value: Languages.CELESTIAL,

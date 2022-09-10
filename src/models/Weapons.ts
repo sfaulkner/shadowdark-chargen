@@ -1,16 +1,14 @@
 import { WeaponHandedness, WeaponRanges, WeaponTypes } from "./Enumerations";
+import { Gear } from "./Gear";
 
 export interface WeaponProperties {
   Handed: WeaponHandedness;
-  Slots: number;
   Loading: boolean;
   Thrown: boolean;
   Finesse: boolean;
 }
 
-export interface Weapon {
-  Name: string;
-  Cost: number;
+export interface Weapon extends Gear {
   Type: WeaponTypes[];
   Range: WeaponRanges;
   Damage: "1d4" | "1d6" | "1d8" | "1d10" | "1d12";
@@ -26,9 +24,9 @@ export class Weapons {
     Range: WeaponRanges.Close,
     Damage: "1d8",
     VersatileDamage: "1d10",
+    Slots: 2,
     Properties: {
       Handed: WeaponHandedness.Versatile,
-      Slots: 2,
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -41,9 +39,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d4",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -56,9 +55,10 @@ export class Weapons {
     Type: [WeaponTypes.Ranged],
     Range: WeaponRanges.Far,
     Damage: "1d6",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Versatile,
-      Slots: 1,
+
       Loading: true,
       Thrown: false,
       Finesse: false,
@@ -71,9 +71,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
     Range: WeaponRanges.Near,
     Damage: "1d4",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: true,
       Finesse: true,
@@ -87,9 +88,10 @@ export class Weapons {
     Range: WeaponRanges.Close,
     Damage: "1d8",
     VersatileDamage: "1d10",
+    Slots: 2,
     Properties: {
       Handed: WeaponHandedness.Versatile,
-      Slots: 2,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -102,9 +104,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d12",
+    Slots: 2,
     Properties: {
       Handed: WeaponHandedness.Twohand,
-      Slots: 2,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -113,13 +116,14 @@ export class Weapons {
 
   static readonly JAVELIN: Weapon = {
     Name: "Javelin",
-    Cost: 0.05,
+    Cost: 0.5,
     Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
     Range: WeaponRanges.Far,
     Damage: "1d4",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: true,
       Finesse: false,
@@ -132,9 +136,10 @@ export class Weapons {
     Type: [WeaponTypes.Ranged],
     Range: WeaponRanges.Far,
     Damage: "1d8",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Twohand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -148,9 +153,10 @@ export class Weapons {
     Range: WeaponRanges.Close,
     Damage: "1d6",
     VersatileDamage: "1d8",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Versatile,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -163,9 +169,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d6",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -178,9 +185,10 @@ export class Weapons {
     Type: [WeaponTypes.Ranged],
     Range: WeaponRanges.Far,
     Damage: "1d4",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Twohand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -193,9 +201,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d6",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -204,13 +213,14 @@ export class Weapons {
 
   static readonly SPEAR: Weapon = {
     Name: "Spear",
-    Cost: 0.05,
+    Cost: 0.5,
     Type: [WeaponTypes.Melee, WeaponTypes.Ranged],
     Range: WeaponRanges.Near,
     Damage: "1d6",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Onehand,
-      Slots: 1,
+
       Loading: false,
       Thrown: true,
       Finesse: false,
@@ -219,13 +229,14 @@ export class Weapons {
 
   static readonly STAFF: Weapon = {
     Name: "Staff",
-    Cost: 0.05,
+    Cost: 0.5,
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d4",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Twohand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,
@@ -238,9 +249,10 @@ export class Weapons {
     Type: [WeaponTypes.Melee],
     Range: WeaponRanges.Close,
     Damage: "1d8",
+    Slots: 1,
     Properties: {
       Handed: WeaponHandedness.Twohand,
-      Slots: 1,
+
       Loading: false,
       Thrown: false,
       Finesse: false,

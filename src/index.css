@@ -198,3 +198,23 @@ footer {
   margin-top: 50px;
   font-size: 14px;
 }
+
+.gearBoxGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 0px 2px;
+  grid-auto-flow: row;
+}
+
+.gearBox1 {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.gearBox2 {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.gearBox3 {
+  grid-area: 1 / 3 / 2 / 4;
+}

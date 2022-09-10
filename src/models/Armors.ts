@@ -1,6 +1,6 @@
-export interface Armor {
-  Name: string;
-  Cost: number;
+import { Gear } from "./Gear";
+
+export interface Armor extends Gear {
   Slots: number;
   ArmorClass: number;
   DexBonus: boolean;

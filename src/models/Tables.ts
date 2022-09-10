@@ -3,18 +3,22 @@ import { Alignment } from "./Alignments";
 import { Background } from "./Backgrounds";
 import { CharacterClass } from "./CharacterClass";
 import { AlignmentType } from "./Enumerations";
+import { Gear } from "./Gear";
 import { Race } from "./Races";
 import {
   AlignmentData,
   BackgroundData,
   ClassData,
+  CommonLanguageData,
   DeityData,
   GearData,
   NameData,
   RaceData,
+  RareLanguageData,
   TalentData,
   TitleData,
 } from "./RawData";
+import { Weapon } from "./Weapons";
 
 // Interface to hold the type of item on a rollable table
 export interface RollableTableItem<T> {
@@ -60,7 +64,7 @@ export class RollableTable<T> {
 const Races = new RollableTable<Race>(RaceData, 12);
 const Classes = new RollableTable<CharacterClass>(ClassData, 4);
 const Alignments = new RollableTable<Alignment>(AlignmentData, 6);
-const Gear = new RollableTable(GearData, 12);
+const Gear = new RollableTable<Gear>(GearData, 12);
 const Backgrounds = new RollableTable<Background>(BackgroundData, 20);
 
 // Titles aren't a rollable table, instead find them based on
@@ -81,6 +85,10 @@ const Names = new RollableTable(NameData, 20);
 
 const Talents = new RollableTable(TalentData, 6, 2);
 
+const CommonLanguages = new RollableTable(CommonLanguageData, 12);
+
+const RareLanguages = new RollableTable(RareLanguageData, 4);
+
 // Export the tables object for use on the character
 export const Tables = {
   Races,
@@ -92,4 +100,6 @@ export const Tables = {
   Deities,
   Names,
   Talents,
+  CommonLanguages,
+  RareLanguages,
 };
