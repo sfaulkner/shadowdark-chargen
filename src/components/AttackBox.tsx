@@ -1,4 +1,4 @@
-import { WeaponTypes } from "../models/Enumerations";
+import { WeaponHandedness, WeaponTypes } from "../models/Enumerations";
 import { PlayerStats } from "../models/PlayerStats";
 import { Weapon } from "../models/Weapons";
 
@@ -49,6 +49,15 @@ const AttackBox = ({
                 }, ${weapon.Damage}${
                   meleeDamageBonus > 0 ? ` + ${meleeDamageBonus}` : ""
                 }`}
+                {weapon.Properties.Handed === WeaponHandedness.Versatile && (
+                  <>
+                    <br />
+                    <b>{`${weapon.Name} (2H), `}</b>
+                    {` ${meleeTotal > -1 ? "+" : ""}${meleeTotal}, ${
+                      weapon.VersatileDamage
+                    }${meleeDamageBonus > 0 ? ` + ${meleeDamageBonus}` : ""}`}
+                  </>
+                )}
               </div>
             );
           } else {

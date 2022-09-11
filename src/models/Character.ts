@@ -7,10 +7,10 @@ import { ClassType, RaceType, WeaponTypes } from "./Enumerations";
 import { Language } from "./Languages";
 import { PlayerStats } from "./PlayerStats";
 import { Race } from "./Races";
-import { Tables } from "./Tables";
+import { RollableTable, Tables } from "./Tables";
 import { Gear as GearType, Gears } from "./Gear";
 import { Armors } from "./Armors";
-import { Weapon, Weapons } from "./Weapons";
+import { Weapon } from "./Weapons";
 import { Talent, Talents } from "./Talents";
 import { Spell, Spells } from "./Spells";
 
@@ -73,32 +73,48 @@ export class Character {
     // Add the talents for this race and class
     this.Talents = [
       this.Race.Talent,
-      Tables.Talents.roll()[this.CharacterClass.Id],
+      Tables.Talents(this.CharacterClass.Id).roll(),
     ];
 
     // If this race is a human add another talent roll
     if (this.Race.Id === RaceType.Human) {
-      this.Talents.push(Tables.Talents.roll()[this.CharacterClass.Id]);
+      // If this is a thief and already has the first talent reroll
+      if (
+        this.CharacterClass.Id === ClassType.Thief &&
+        this.Talents[0] === Talents.THIEF1
+      ) {
+        this.Talents.push(
+          Tables.Talents(this.CharacterClass.Id).roll([Talents.THIEF1])
+        );
+      } else {
+        this.Talents.push(Tables.Talents(this.CharacterClass.Id).roll());
+      }
     }
 
-    // Select a weapon based on class and stats
-    if (this.CharacterClass.Id === ClassType.Cleric) {
-      this.Weapons.push(Weapons.WARHAMMER);
-    } else if (this.CharacterClass.Id === ClassType.Fighter) {
-      if (this.Stats.Strength > this.Stats.Dexterity) {
-        this.Weapons.push(Weapons.GREATSWORD);
-      } else {
-        this.Weapons.push(Weapons.LONGBOW);
-        this.Gear.push(Gears.ARROWS);
-      }
-    } else if (this.CharacterClass.Id === ClassType.Thief) {
-      if (this.Stats.Dexterity > this.Stats.Strength) {
-        this.Weapons.push(Weapons.DAGGER);
-      } else {
-        this.Weapons.push(Weapons.SHORTSWORD);
-      }
-    } else if (this.CharacterClass.Id === ClassType.Wizard) {
-      this.Weapons.push(Weapons.STAFF);
+    // Create weapons table
+    let WeaponsTable = new RollableTable(this.CharacterClass.Weapons);
+
+    // Prefer melee weapons if Strength is higher
+    if (this.Stats.Strength > this.Stats.Dexterity) {
+      WeaponsTable = new RollableTable(
+        this.CharacterClass.Weapons.filter((weapon) =>
+          weapon.Type.includes(WeaponTypes.Melee)
+        )
+      );
+    } else if (this.CharacterClass.Id !== ClassType.Wizard) {
+      WeaponsTable = new RollableTable(
+        this.CharacterClass.Weapons.filter(
+          (weapon) => weapon.Type[0] === WeaponTypes.Ranged
+        )
+      );
+    }
+
+    // If there is more than one option roll
+    // otherwise use the only option left
+    if (WeaponsTable.getItems().length > 1) {
+      this.Weapons.push(WeaponsTable.roll());
+    } else {
+      this.Weapons.push(WeaponsTable.getItems()[0]);
     }
 
     // Add weapons to the gear list as well
@@ -130,21 +146,21 @@ export class Character {
 
     // Add the wizard languages
     if (this.CharacterClass.Id === ClassType.Wizard) {
-      this.Languages.push(Tables.CommonLanguages.roll());
-      this.Languages.push(Tables.CommonLanguages.roll());
-      this.Languages.push(Tables.RareLanguages.roll());
-      this.Languages.push(Tables.RareLanguages.roll());
+      this.Languages.push(Tables.CommonLanguages.roll(this.Languages));
+      this.Languages.push(Tables.CommonLanguages.roll(this.Languages));
+      this.Languages.push(Tables.RareLanguages.roll(this.Languages));
+      this.Languages.push(Tables.RareLanguages.roll(this.Languages));
     }
 
     // Add spells, 3 for wizard and 2 for cleric
     if (this.CharacterClass.Id === ClassType.Wizard) {
       for (let i = 0; i < 3; i++) {
-        this.Spells.push(Tables.WizardSpells.roll());
+        this.Spells.push(Tables.WizardSpells.roll(this.Spells));
       }
     } else if (this.CharacterClass.Id === ClassType.Cleric) {
       this.Spells.push(Spells.TURN_UNDEAD);
       for (let i = 0; i < 2; i++) {
-        this.Spells.push(Tables.ClericSpells.roll());
+        this.Spells.push(Tables.ClericSpells.roll(this.Spells));
       }
     }
 

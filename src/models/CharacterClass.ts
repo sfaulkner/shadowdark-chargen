@@ -1,6 +1,8 @@
 import { Armor, Armors } from "./Armors";
 import { AbilityScores, ClassType } from "./Enumerations";
 import { Language, Languages } from "./Languages";
+import { RollableTable } from "./Tables";
+import { Talent, Talents } from "./Talents";
 import { Weapon, Weapons } from "./Weapons";
 
 export interface Feature {
