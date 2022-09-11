@@ -60,10 +60,12 @@ export class Character {
     this.MeleeDamageBonus = 0;
     this.RangedBonus = 0;
     this.SpellcastingBonus = 0;
+    this.ArmorClass = 0;
     this.Spells = [];
     this.Gear = [];
     this.Weapons = [];
     this.FreeCarry = [];
+    this.Languages = [];
 
     // Create the stats
     this.Stats = new PlayerStats();
@@ -111,40 +113,6 @@ export class Character {
       this.FreeCarry.push("Thieves' tools");
     }
 
-    // Calculate hp based on the con mod with a minimum of 1
-    let hp =
-      d20.roll(this.CharacterClass.HitDice) +
-      (this.Stats.ConMod > 0 ? this.Stats.ConMod : 1);
-
-    // If this is a dwarf reroll the HP and use the higher value
-    if (this.Race.Id === RaceType.Dwarf) {
-      let newHp =
-        d20.roll(this.CharacterClass.HitDice) +
-        (this.Stats.ConMod > 0 ? this.Stats.ConMod : 1);
-      if (newHp > hp) {
-        hp = newHp;
-      }
-    }
-
-    // If this character is not a Wizard add leather armor
-    if (this.CharacterClass.Id !== ClassType.Wizard) {
-      this.Gear.push(Armors.LEATHER_ARMOR);
-      this.ArmorClass = 11 + this.Stats.DexMod;
-    } else {
-      this.ArmorClass = 10 + this.Stats.DexMod;
-    }
-
-    // Roll for 1d6 items from the gear table
-    for (let i = 0; i < d20.roll("1d6"); i++) {
-      this.Gear.push(Tables.Gear.roll());
-    }
-
-    // Set the hitpoints
-    this.HitPoints = hp;
-
-    // Set Languages
-    this.Languages = [];
-
     // Add the race languages
     if (this.Race.Languages.length > 0) {
       for (let i = 0; i < this.Race.Languages.length; i++) {
@@ -166,14 +134,6 @@ export class Character {
       this.Languages.push(Tables.CommonLanguages.roll());
       this.Languages.push(Tables.RareLanguages.roll());
       this.Languages.push(Tables.RareLanguages.roll());
-    }
-
-    // Calculate gear slots
-    this.TotalSlots = this.Stats.Strength > 10 ? this.Stats.Strength : 10;
-
-    // Fighter adds con mod to gear slots
-    if (this.CharacterClass.Id === ClassType.Fighter && this.Stats.ConMod > 0) {
-      this.TotalSlots += this.Stats.ConMod;
     }
 
     // Add spells, 3 for wizard and 2 for cleric
@@ -293,5 +253,44 @@ export class Character {
           break;
       }
     }
+
+    // Calculate gear slots
+    this.TotalSlots = this.Stats.Strength > 10 ? this.Stats.Strength : 10;
+
+    // Fighter adds con mod to gear slots
+    if (this.CharacterClass.Id === ClassType.Fighter && this.Stats.ConMod > 0) {
+      this.TotalSlots += this.Stats.ConMod;
+    }
+
+    // Calculate hp based on the con mod with a minimum of 1
+    let hp =
+      d20.roll(this.CharacterClass.HitDice) +
+      (this.Stats.ConMod > 0 ? this.Stats.ConMod : 1);
+
+    // If this is a dwarf reroll the HP and use the higher value
+    if (this.Race.Id === RaceType.Dwarf) {
+      let newHp =
+        d20.roll(this.CharacterClass.HitDice) +
+        (this.Stats.ConMod > 0 ? this.Stats.ConMod : 1);
+      if (newHp > hp) {
+        hp = newHp;
+      }
+    }
+
+    // If this character is not a Wizard add leather armor
+    if (this.CharacterClass.Id !== ClassType.Wizard) {
+      this.Gear.push(Armors.LEATHER_ARMOR);
+      this.ArmorClass += 11 + this.Stats.DexMod;
+    } else {
+      this.ArmorClass += 10 + this.Stats.DexMod;
+    }
+
+    // Roll for 1d6 items from the gear table
+    for (let i = 0; i < d20.roll("1d6"); i++) {
+      this.Gear.push(Tables.Gear.roll());
+    }
+
+    // Set the hitpoints
+    this.HitPoints = hp;
   }
 }
