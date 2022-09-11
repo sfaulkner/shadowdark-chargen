@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
-import "./App.css";
 import CharacterSheet from "./components/CharacterSheet";
 import { Character } from "./models/Character";
 
