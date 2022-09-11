@@ -13,6 +13,15 @@
   display: flex;
 }
 
+.Tooltip {
+  background: #222;
+  color: white;
+  pointer-events: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 14px;
+}
+
 .sheetContainer {
   margin-left: 10%;
   margin-right: 10%;
@@ -197,6 +206,7 @@
 footer {
   margin-top: 50px;
   font-size: 14px;
+  text-align: center;
 }
 
 .gearBoxGrid {

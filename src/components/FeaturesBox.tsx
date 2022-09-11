@@ -2,6 +2,7 @@ import { Feature } from "../models/CharacterClass";
 import { Language } from "../models/Languages";
 import { Spell } from "../models/Spells";
 import { Talent } from "../models/Talents";
+import { AnimatedTooltip } from "./AnimatedTooltip";
 
 interface Props {
   label: string;
@@ -41,9 +42,27 @@ const FeaturesBox = ({
           <b>Tier 1 Spells. </b>
           {spells.map((s, i) => {
             if (i !== spells.length - 1) {
-              return <span key={`spell-${i}`}>{s.Name}, </span>;
+              return (
+                <span key={`spell-${i}`}>
+                  {
+                    <AnimatedTooltip label={s.Description}>
+                      <span>{s.Name}</span>
+                    </AnimatedTooltip>
+                  }
+                  ,{" "}
+                </span>
+              );
             } else {
-              return <span key={`spell-${i}`}>{s.Name}.</span>;
+              return (
+                <span key={`spell-${i}`}>
+                  {
+                    <AnimatedTooltip label={s.Description}>
+                      <span>{s.Name}</span>
+                    </AnimatedTooltip>
+                  }
+                  .
+                </span>
+              );
             }
           })}
           <br />
@@ -53,9 +72,27 @@ const FeaturesBox = ({
       <b>Languages. </b>
       {languages.map((l, i) => {
         if (i !== languages.length - 1) {
-          return <span key={`language-${i}`}>{l.Name}, </span>;
+          return (
+            <span key={`language-${i}`}>
+              {
+                <AnimatedTooltip label={l.Speakers}>
+                  <span>{l.Name}</span>
+                </AnimatedTooltip>
+              }
+              ,{" "}
+            </span>
+          );
         } else {
-          return <span key={`language-${i}`}>{l.Name}.</span>;
+          return (
+            <span key={`language-${i}`}>
+              {
+                <AnimatedTooltip label={l.Speakers}>
+                  <span>{l.Name}</span>
+                </AnimatedTooltip>
+              }
+              .
+            </span>
+          );
         }
       })}
     </>

@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@2toad/d20": "^1.2.0",
+    "@floating-ui/react-dom-interactions": "^0.9.3",
+    "framer-motion": "^7.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-merge-refs": "^2.0.1",
     "react-to-print": "^2.14.7"
   },
   "devDependencies": {

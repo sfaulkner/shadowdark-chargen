@@ -11,13 +11,16 @@ interface Props {
 const GearBox = ({ label, items, totalSlots, freeCarry }: Props) => {
   const gearSlots: string[] = Array.from({ length: 20 });
 
+  let j = 0;
   for (let i = 0; i < items.length; i++) {
-    gearSlots[i] = items[i].Name;
+    gearSlots[i] = items[j].Name;
 
-    if (items[i].Slots === 2) {
-      gearSlots[i + 1] = `(${items[i].Name} Slot)`;
+    if (items[j].Slots === 2) {
+      gearSlots[i + 1] = `(${items[j].Name} Slot)`;
       i++;
     }
+
+    j++;
   }
 
   for (let i = totalSlots; i < gearSlots.length; i++) {

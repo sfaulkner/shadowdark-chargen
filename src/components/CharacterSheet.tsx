@@ -68,10 +68,18 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
               <InfoBox label="Name" value={player.Name} />
             </div>
             <div className="box raceGrid">
-              <InfoBox label="Race" value={player.Race.Name} />
+              <InfoBox
+                label="Race"
+                value={player.Race.Name}
+                tooltip={player.Race.Description}
+              />
             </div>
             <div className="box classGrid">
-              <InfoBox label="Class" value={player.CharacterClass.Name} />
+              <InfoBox
+                label="Class"
+                value={player.CharacterClass.Name}
+                tooltip={player.CharacterClass.Description}
+              />
             </div>
             <div className="levelXpGrid">
               <div className="box levelGrid">
@@ -89,13 +97,25 @@ const CharacterSheet = forwardRef<HTMLDivElement, Props>(
               <InfoBox label="Title" value={player.Title} />
             </div>
             <div className="box alignmentGrid">
-              <InfoBox label="Alignment" value={player.Alignment.Name} />
+              <InfoBox
+                label="Alignment"
+                value={player.Alignment.Name}
+                tooltip={player.Alignment.Description}
+              />
             </div>
             <div className="box backgroundGrid">
-              <InfoBox label="Background" value={player.Background.Name} />
+              <InfoBox
+                label="Background"
+                value={player.Background.Name}
+                tooltip={player.Background.Description}
+              />
             </div>
             <div className="box deityGrid">
-              <InfoBox label="Deity" value={player.Deity.Name} />
+              <InfoBox
+                label="Deity"
+                value={player.Deity.Name}
+                tooltip={player.Deity.Description}
+              />
             </div>
           </div>
           <div className="talentsGearColumn">
